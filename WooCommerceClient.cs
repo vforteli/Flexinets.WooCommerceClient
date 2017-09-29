@@ -40,12 +40,20 @@ namespace Flexinets.WooCommerce
         /// <returns></returns>
         public async Task<WooCommerceOrderModel> GetOrderAsync(Int64 orderId)
         {
-            using (var client = new WebClient())
+            try
             {
-                var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{_consumerKey}:{_consumerSecret}"));
-                client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
-                var orderJson = await client.DownloadStringTaskAsync($"{_baseUrl}/wp-json/wc/v1/orders/{orderId}");
-                return JsonConvert.DeserializeObject<WooCommerceOrderModel>(orderJson);
+                using (var client = new WebClient())
+                {
+                    var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_consumerKey}:{_consumerSecret}"));
+                    client.Headers[HttpRequestHeader.Authorization] = $"Basic {credentials}";
+                    var orderJson = await client.DownloadStringTaskAsync($"{_baseUrl}/wp-json/wc/v2/orders/{orderId}");
+                    return JsonConvert.DeserializeObject<WooCommerceOrderModel>(orderJson);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error("hmm", ex);
+                throw;
             }
         }
 
