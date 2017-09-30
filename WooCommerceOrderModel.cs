@@ -128,8 +128,8 @@ namespace Flexinets.WooCommerce
         public string payment_method { get; set; }
         public string payment_method_title { get; set; }
         public string transaction_id { get; set; }
-        public DateTime date_paid { get; set; }
-        public DateTime date_paid_gmt { get; set; }
+        public DateTime? date_paid { get; set; }
+        public DateTime? date_paid_gmt { get; set; }
         public DateTime? date_completed { get; set; }
         public DateTime? date_completed_gmt { get; set; }
         public string cart_hash { get; set; }
